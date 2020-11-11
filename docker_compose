@@ -1,0 +1,15 @@
+sudo docker run -p 7077:7077 -p 8080:8080 --privileged=true \
+-v $PWD/Zeppelin/logs:/logs \
+-v $PWD/Zeppelin/notebook:/notebook \
+-v $PWD/Zeppelin/interpretador:/zeppelin/interpreter/jdbc \
+-v /home/bosco:/zeppelin/bosco \
+-e ZEPPELIN_NOTEBOOK_DIR='/notebook' \
+-e ZEPPELIN_LOG_DIR='/logs' \
+-d apache/zeppelin:0.9.0 \
+bash /zeppelin/bin/zeppelin.sh
+
+docker run \
+-p 8888:8888 \
+--privileged=false \
+-v $PWD/notebook:/home/jovyan/work \
+-d jupyter/pyspark-notebook	
