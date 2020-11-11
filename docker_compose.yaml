@@ -1,4 +1,6 @@
-sudo docker run -p 7077:7077 -p 8080:8080 --privileged=true \
+version: "3.8"
+services:
+docker run -p 7077:7077 -p 8080:8080 --privileged=true \
 -v $PWD/Zeppelin/logs:/logs \
 -v $PWD/Zeppelin/notebook:/notebook \
 -v $PWD/Zeppelin/interpretador:/zeppelin/interpreter/jdbc \
