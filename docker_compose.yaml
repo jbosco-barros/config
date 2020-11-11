@@ -1,17 +1,26 @@
 version: "3.8"
 services:
-docker run -p 7077:7077 -p 8080:8080 --privileged=true \
--v $PWD/Zeppelin/logs:/logs \
--v $PWD/Zeppelin/notebook:/notebook \
--v $PWD/Zeppelin/interpretador:/zeppelin/interpreter/jdbc \
--v /home/bosco:/zeppelin/bosco \
--e ZEPPELIN_NOTEBOOK_DIR='/notebook' \
--e ZEPPELIN_LOG_DIR='/logs' \
--d apache/zeppelin:0.9.0 \
-bash /zeppelin/bin/zeppelin.sh
-
-docker run \
--p 8888:8888 \
---privileged=false \
--v $PWD/notebook:/home/jovyan/work \
--d jupyter/pyspark-notebook	
+  zeppelin:
+    image: 
+    - apache/zeppelin:0.9.0
+    ports:
+      - "7077:7077"
+      - "8080:8080"
+    environment:
+      - ZEPPELIN_NOTEBOOK_DIR='/notebook'
+      - ZEPPELIN_LOG_DIR='/logs'
+    volumes:
+      - $PWD/Zeppelin/logs:/logs
+      - $PWD/Zeppelin/notebook:/notebook
+      - $PWD/Zeppelin/interpretador:/zeppelin/interpreter/jdbc
+      - /home/bosco:/zeppelin/bosco
+    command:
+      - bash /zeppelin/bin/zeppelin.sh
+    privileged: true
+  jupyter:
+    image: 
+    - jupyter/pyspark-notebook
+    volumes:
+    - $PWD/notebook:/home/jovyan/work
+    ports:
+    - "8888:8888"
